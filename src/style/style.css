@@ -1,0 +1,161 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f5f5f5;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Lateral */
+.sidebar {
+    background-color: #1f1f2e;
+    color: white;
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+}
+
+.perfil {
+    text-align: center;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.perfil h2 {
+    margin: 10px 0 5px;
+    font-size: 16px;
+}
+
+.info p {
+    margin: 3px 0;
+    font-size: 14px;
+}
+
+.info span {
+    display: block;
+    font-size: 11px;
+    color: #bbb;
+}
+
+.menu {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.item {
+    background-color: transparent;
+    padding: 10px;
+    text-align: left;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.item.ativo {
+    background-color: #38385a;
+    color: white;
+    border-left: 4px solid #4a90e2;
+}
+
+.dog {
+    width: 100px;
+    border-radius: 10px;
+    margin-top: auto;
+}
+
+/* Conteúdo principal */
+.conteudo {
+    flex: 1;
+    padding: 20px 40px;
+}
+
+.tabs {
+    display: flex;
+    gap: 10px;
+}
+
+.tabs button {
+    border: none;
+    background-color: #ddd;
+    padding: 10px 25px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.tabs button.ativo {
+    background-color: #4a90e2;
+    color: white;
+}
+
+.criar-atividade {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.input-group {
+    display: inline-block;
+    width: 48%;
+    margin: 10px 1%;
+}
+
+.input-group label {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Atividades */
+.atividades {
+    margin-top: 25px;
+}
+
+.atividade {
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.atividade img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.atividade h4 {
+    margin: 0;
+    font-size: 15px;
+}
+
+.atividade h4 span {
+    color: #4a90e2;
+    font-weight: 600;
+    margin-left: 5px;
+}
+
+.atividade p {
+    margin: 3px 0 0;
+    font-size: 13px;
+    color: #555;
+}

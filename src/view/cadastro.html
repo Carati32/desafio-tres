@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro</title>
+    <style>
+        body { font-family: Arial; display:flex; justify-content:center; align-items:center; height:100vh; }
+        form { display:flex; flex-direction:column; width:300px; }
+        input, button { margin-bottom:10px; padding:8px; }
+        .message { color:red; }
+    </style>
+</head>
+<body>
+    <form id="signupForm">
+        <h2>Cadastro</h2>
+        <input type="text" id="nome_usuario" placeholder="Nome de usuário" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="text" id="avatar_url" placeholder="URL do avatar">
+        <input type="password" id="senha" placeholder="Senha" required>
+        <button type="submit">Cadastrar</button>
+        <p class="message" id="msg"></p>
+        <p>Já tem conta? <a href="login.html">Entrar</a></p>
+    </form>
+
+    <script>
+        const form = document.getElementById('signupForm');
+        const msg = document.getElementById('msg');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const data = {
+                nome_usuario: form.nome_usuario.value,
+                email: form.email.value,
+                senha: form.senha.value,
+                avatar_url: form.avatar_url.value
+            };
+
+            try {
+                const res = await fetch('http://localhost:3000/usuarios', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await res.json();
+
+                if (res.ok) {
+                    alert('Cadastro realizado! Faça login.');
+                    window.location.href = 'login.html';
+                } else {
+                    msg.textContent = result.message || 'Erro ao cadastrar';
+                }
+            } catch (err) {
+                msg.textContent = 'Erro ao conectar com servidor';
+                console.error(err);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Atividades</title>
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="perfil">
+                <img src="" alt="Avatar" class="avatar" id="avatar">
+                <h2 id="nome_usuario">Usuário</h2>
+                <div class="info">
+                    <p id="total_atividades">0 <span>Qtd. Atividades</span></p>
+                    <p id="total_calorias">0 <span>Qtd. Calorias</span></p>
+                </div>
+            </div>
+            <nav class="menu">
+                <div class="item ativo">Atividade</div>
+            </nav>
+        </aside>
+
+        <main class="conteudo">
+            <div class="tabs">
+                <button class="ativo">Corrida</button>
+                <button>Caminhada</button>
+            </div>
+
+            <div class="criar-atividade">
+                <h3>Crie sua atividade</h3>
+                <form id="atividadeForm">
+                    <div class="input-group">
+                        <label>Tipo da atividade</label>
+                        <select id="tipo">
+                            <option value="Corrida">Corrida</option>
+                            <option value="Caminhada">Caminhada</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Distância (km)</label>
+                        <input type="number" step="0.1" id="distancia" placeholder="Ex: 5">
+                    </div>
+                    <div class="input-group">
+                        <label>Duração (min)</label>
+                        <input type="number" id="duracao" placeholder="Ex: 50">
+                    </div>
+                    <div class="input-group">
+                        <label>Calorias</label>
+                        <input type="number" id="calorias" placeholder="Ex: 300">
+                    </div>
+                    <button type="submit">Registrar Atividade</button>
+                </form>
+            </div>
+
+            <div class="atividades" id="atividadesContainer">
+                <h3>Suas Atividades</h3>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const usuario = JSON.parse(localStorage.getItem('usuario'));
+        if (!usuario) {
+            window.location.href = 'login.html';
+        }
+
+        document.getElementById('nome_usuario').textContent = usuario.nome_usuario;
+        document.getElementById('avatar').src = usuario.avatar_url || '../img/default-avatar.png';
+        document.getElementById('total_atividades').textContent = usuario.total_atividades + " Qtd. Atividades";
+        document.getElementById('total_calorias').textContent = usuario.total_calorias + " Qtd. Calorias";
+
+        const atividadesContainer = document.getElementById('atividadesContainer');
+
+        async function carregarAtividades() {
+            const res = await fetch(`http://localhost:3000/atividades/${usuario.id}`);
+            const atividades = await res.json();
+
+            atividadesContainer.innerHTML = '<h3>Suas Atividades</h3>';
+
+            atividades.forEach(a => {
+                const div = document.createElement('div');
+                div.classList.add('atividade');
+                div.innerHTML = `
+                    <img src="${usuario.avatar_url}" alt="Avatar">
+                    <div>
+                        <h4>${usuario.nome_usuario} <span>${a.tipo}</span></h4>
+                        <p><b>${a.distancia_km} km</b> Distância | <b>${a.duracao_min} min</b> Duração | <b>${a.calorias}</b> Calorias</p>
+                    </div>
+                `;
+                atividadesContainer.appendChild(div);
+            });
+        }
+
+        carregarAtividades();
+
+        const formAtividade = document.getElementById('atividadeForm');
+        formAtividade.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const data = {
+                usuario_id: usuario.id,
+                tipo: document.getElementById('tipo').value,
+                distancia_km: parseFloat(document.getElementById('distancia').value),
+                duracao_min: parseInt(document.getElementById('duracao').value),
+                calorias: parseInt(document.getElementById('calorias').value)
+            };
+
+            const res = await fetch('http://localhost:3000/atividades', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            if (res.ok) {
+                alert('Atividade registrada!');
+                carregarAtividades();
+                formAtividade.reset();
+            } else {
+                alert('Erro ao registrar atividade');
+            }
+        });
+    </script>
+</body>
+</html>
