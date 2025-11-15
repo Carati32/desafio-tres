@@ -17,7 +17,8 @@
         <input type="password" id="senha" placeholder="Senha" required>
         <button type="submit">Entrar</button>
         <p class="message" id="msg"></p>
-        <p>Não tem conta? <a href="signup.html">Cadastre-se</a></p>
+        <!-- Link corrigido para cadastro.html -->
+        <p>Não tem conta? <a href="cadastro.html">Cadastre-se</a></p>
     </form>
 
     <script>
@@ -44,7 +45,8 @@
                 if (res.ok) {
                     // salvar usuário logado
                     localStorage.setItem('usuario', JSON.stringify(result.usuario));
-                    window.location.href = 'painel.html';
+                    // redireciona para index.html (seu painel)
+                    window.location.href = 'index.html';
                 } else {
                     msg.textContent = result.message || 'Erro no login';
                 }

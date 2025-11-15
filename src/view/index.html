@@ -24,9 +24,11 @@
 
         <main class="conteudo">
             <div class="tabs">
-                <button class="ativo">Corrida</button>
+                <button class="ativo">Todas</button>
+                <button>Corrida</button>
                 <button>Caminhada</button>
             </div>
+            
 
             <div class="criar-atividade">
                 <h3>Crie sua atividade</h3>
@@ -56,71 +58,25 @@
 
             <div class="atividades" id="atividadesContainer">
                 <h3>Suas Atividades</h3>
+                <div class="atividades-lista" id="listaAtividades">
+                    
+                    <div class="atividade">
+                        <h4>Corrida <span>5 km</span></h4>
+                        <p>Duração: 30 min</p>
+                        <p>Calorias: 250</p>
+                        <div class="acoes">
+                            <button class="editar">Editar</button>
+                            <button class="excluir">Excluir</button>
+                        </div>
+                    </div>
+
+                </div>
+                <button class="seta seta-esquerda" id="setaEsq">❮</button>
+                <button class="seta seta-direita" id="setaDir">❯</button>
             </div>
         </main>
     </div>
 
-    <script>
-        const usuario = JSON.parse(localStorage.getItem('usuario'));
-        if (!usuario) {
-            window.location.href = 'login.html';
-        }
-
-        document.getElementById('nome_usuario').textContent = usuario.nome_usuario;
-        document.getElementById('avatar').src = usuario.avatar_url || '../img/default-avatar.png';
-        document.getElementById('total_atividades').textContent = usuario.total_atividades + " Qtd. Atividades";
-        document.getElementById('total_calorias').textContent = usuario.total_calorias + " Qtd. Calorias";
-
-        const atividadesContainer = document.getElementById('atividadesContainer');
-
-        async function carregarAtividades() {
-            const res = await fetch(`http://localhost:3000/atividades/${usuario.id}`);
-            const atividades = await res.json();
-
-            atividadesContainer.innerHTML = '<h3>Suas Atividades</h3>';
-
-            atividades.forEach(a => {
-                const div = document.createElement('div');
-                div.classList.add('atividade');
-                div.innerHTML = `
-                    <img src="${usuario.avatar_url}" alt="Avatar">
-                    <div>
-                        <h4>${usuario.nome_usuario} <span>${a.tipo}</span></h4>
-                        <p><b>${a.distancia_km} km</b> Distância | <b>${a.duracao_min} min</b> Duração | <b>${a.calorias}</b> Calorias</p>
-                    </div>
-                `;
-                atividadesContainer.appendChild(div);
-            });
-        }
-
-        carregarAtividades();
-
-        const formAtividade = document.getElementById('atividadeForm');
-        formAtividade.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const data = {
-                usuario_id: usuario.id,
-                tipo: document.getElementById('tipo').value,
-                distancia_km: parseFloat(document.getElementById('distancia').value),
-                duracao_min: parseInt(document.getElementById('duracao').value),
-                calorias: parseInt(document.getElementById('calorias').value)
-            };
-
-            const res = await fetch('http://localhost:3000/atividades', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-
-            if (res.ok) {
-                alert('Atividade registrada!');
-                carregarAtividades();
-                formAtividade.reset();
-            } else {
-                alert('Erro ao registrar atividade');
-            }
-        });
-    </script>
+<script src="../script.js"></script>
 </body>
 </html>

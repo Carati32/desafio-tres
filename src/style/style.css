@@ -9,7 +9,6 @@ body {
     height: 100vh;
 }
 
-/* Lateral */
 .sidebar {
     background-color: #1f1f2e;
     color: white;
@@ -65,13 +64,6 @@ body {
     border-left: 4px solid #4a90e2;
 }
 
-.dog {
-    width: 100px;
-    border-radius: 10px;
-    margin-top: auto;
-}
-
-/* Conteúdo principal */
 .conteudo {
     flex: 1;
     padding: 20px 40px;
@@ -122,25 +114,29 @@ body {
     border-radius: 4px;
 }
 
-/* Atividades */
-.atividades {
-    margin-top: 25px;
+.atividades-lista {
+    display: flex;
+    gap: 30px;          
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 10px 0;
 }
+
 
 .atividade {
+    min-width: 200px;
+    flex-shrink: 0;
     background-color: #fff;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    padding: 10px;
+    padding: 15px;
     border-radius: 8px;
-    margin-bottom: 10px;
-}
+    margin-top: 25px;
+    position: relative; 
+        margin: 0 20px;     
 
-.atividade img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 10px;
+    
 }
 
 .atividade h4 {
@@ -158,4 +154,80 @@ body {
     margin: 3px 0 0;
     font-size: 13px;
     color: #555;
+}
+
+.seta {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #4a90e2;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 18px;
+    z-index: 10;
+    display: none; 
+}
+
+.seta-esquerda {
+    left: 0;
+}
+
+.seta-direita {
+    right: 0;
+}
+
+
+.acoes {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.acoes button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.acoes .editar {
+    background-color: #f0ad4e;
+    color: white;
+}
+
+.acoes .excluir {
+    background-color: #d9534f;
+    color: white;
+}
+
+
+.criar-atividade button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #4a90e2, #357ABD);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.criar-atividade button[type="submit"]:hover {
+    background: linear-gradient(135deg, #357ABD, #2d5aa0);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+}
+
+.criar-atividade button[type="submit"]:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 5px rgba(0,0,0,0.1);
 }

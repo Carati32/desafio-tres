@@ -101,7 +101,6 @@ app.get("/usuarios/:id", async (req, res) => {
 });
 
 
-// Criar atividade
 app.post("/atividades", async (req, res) => {
   try {
     const { usuario_id, tipo, distancia_km, duracao_min, calorias } = req.body;
@@ -141,6 +140,54 @@ app.get("/atividades/:usuario_id", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Erro ao listar atividades" });
+  }
+});
+
+
+app.put("/atividades/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { tipo, distancia_km, duracao_min, calorias } = req.body;
+
+    await pool.query(
+      "UPDATE atividades SET tipo = ?, distancia_km = ?, duracao_min = ?, calorias = ? WHERE id = ?",
+      [tipo, distancia_km, duracao_min, calorias, id]
+    );
+
+    const [atividadeAtualizada] = await pool.query(
+      "SELECT * FROM atividades WHERE id = ?",
+      [id]
+    );
+
+    res.json(atividadeAtualizada[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erro ao editar atividade" });
+  }
+});
+app.delete("/atividades/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const [atividade] = await pool.query("SELECT * FROM atividades WHERE id = ?", [id]);
+
+    if (atividade.length === 0) {
+      return res.status(404).json({ message: "Atividade não encontrada" });
+    }
+
+    const { usuario_id, calorias } = atividade[0];
+
+    await pool.query("DELETE FROM atividades WHERE id = ?", [id]);
+
+    await pool.query(
+      "UPDATE usuarios SET total_atividades = total_atividades - 1, total_calorias = total_calorias - ? WHERE id = ?",
+      [calorias, usuario_id]
+    );
+
+    res.json({ message: "Atividade excluída com sucesso" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erro ao excluir atividade" });
   }
 });
 
